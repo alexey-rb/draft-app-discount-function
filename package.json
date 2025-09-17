@@ -1,5 +1,5 @@
 {
-  "name": "draft-app-discount-function",
+  "name": "draft-app-tradepro-discount",
   "private": true,
   "scripts": {
     "build": "remix vite:build",

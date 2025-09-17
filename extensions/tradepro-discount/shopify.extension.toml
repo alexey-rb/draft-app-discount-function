@@ -2,7 +2,7 @@ api_version = "2025-04"
 
 [[extensions]]
 name = "t:name"
-handle = "discount-function"
+handle = "tradepro-discount"
 type = "function"
 uid = "630829f6-2180-df6b-6a08-656aa871d3f31c3e344a"
 description = "t:description"
