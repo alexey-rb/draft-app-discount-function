@@ -2,7 +2,6 @@ import {describe, it, expect} from "vitest";
 
 import {cartLinesDiscountsGenerateRun} from "./cart_lines_discounts_generate_run";
 import {
-  OrderDiscountSelectionStrategy,
   ProductDiscountSelectionStrategy,
   DiscountClass,
   CartInput,
@@ -41,40 +40,6 @@ describe("cartLinesDiscountsGenerateRun", () => {
     expect(result.operations).toHaveLength(0);
   });
 
-  it("returns only order discount when only order discount class is present", () => {
-    const input: CartInput = {
-      ...baseInput,
-      discount: {
-        discountClasses: [DiscountClass.Order],
-      },
-    };
-
-    const result: CartLinesDiscountsGenerateRunResult =
-      cartLinesDiscountsGenerateRun(input);
-    expect(result.operations).toHaveLength(1);
-    expect(result.operations[0]).toMatchObject({
-      orderDiscountsAdd: {
-        candidates: [
-          {
-            message: "10% OFF ORDER",
-            targets: [
-              {
-                orderSubtotal: {
-                  excludedCartLineIds: [],
-                },
-              },
-            ],
-            value: {
-              percentage: {
-                value: 10,
-              },
-            },
-          },
-        ],
-        selectionStrategy: OrderDiscountSelectionStrategy.First,
-      },
-    });
-  });
 
   it("returns only product discount when only product discount class is present", () => {
     const input: CartInput = {
@@ -111,7 +76,7 @@ describe("cartLinesDiscountsGenerateRun", () => {
     });
   });
 
-  it("returns both discounts when both discount classes are present", () => {
+  it("returns only product discount when both discount classes are present", () => {
     const input: CartInput = {
       ...baseInput,
       discount: {
@@ -121,31 +86,8 @@ describe("cartLinesDiscountsGenerateRun", () => {
 
     const result: CartLinesDiscountsGenerateRunResult =
       cartLinesDiscountsGenerateRun(input);
-    expect(result.operations).toHaveLength(2);
+    expect(result.operations).toHaveLength(1);
     expect(result.operations[0]).toMatchObject({
-      orderDiscountsAdd: {
-        candidates: [
-          {
-            message: "10% OFF ORDER",
-            targets: [
-              {
-                orderSubtotal: {
-                  excludedCartLineIds: [],
-                },
-              },
-            ],
-            value: {
-              percentage: {
-                value: 10,
-              },
-            },
-          },
-        ],
-        selectionStrategy: OrderDiscountSelectionStrategy.First,
-      },
-    });
-
-    expect(result.operations[1]).toMatchObject({
       productDiscountsAdd: {
         candidates: [
           {

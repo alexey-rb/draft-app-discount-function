@@ -1,6 +1,5 @@
 import {
   DiscountClass,
-  OrderDiscountSelectionStrategy,
   ProductDiscountSelectionStrategy,
   CartInput,
   CartLinesDiscountsGenerateRunResult,
@@ -14,14 +13,11 @@ export function cartLinesDiscountsGenerateRun(
     throw new Error('No cart lines found');
   }
 
-  const hasOrderDiscountClass = input.discount.discountClasses.includes(
-    DiscountClass.Order,
-  );
   const hasProductDiscountClass = input.discount.discountClasses.includes(
     DiscountClass.Product,
   );
 
-  if (!hasOrderDiscountClass && !hasProductDiscountClass) {
+  if (!hasProductDiscountClass) {
     return {operations: []};
   }
 
@@ -32,35 +28,8 @@ export function cartLinesDiscountsGenerateRun(
     return maxLine;
   }, input.cart.lines[0]);
 
-  const operations = [];
-
-  if (hasOrderDiscountClass) {
-    operations.push({
-      orderDiscountsAdd: {
-        candidates: [
-          {
-            message: '10% OFF ORDER',
-            targets: [
-              {
-                orderSubtotal: {
-                  excludedCartLineIds: [],
-                },
-              },
-            ],
-            value: {
-              percentage: {
-                value: 10,
-              },
-            },
-          },
-        ],
-        selectionStrategy: OrderDiscountSelectionStrategy.First,
-      },
-    });
-  }
-
-  if (hasProductDiscountClass) {
-    operations.push({
+  const operations = [
+    {
       productDiscountsAdd: {
         candidates: [
           {
@@ -81,8 +50,8 @@ export function cartLinesDiscountsGenerateRun(
         ],
         selectionStrategy: ProductDiscountSelectionStrategy.First,
       },
-    });
-  }
+    },
+  ];
 
   return {
     operations,

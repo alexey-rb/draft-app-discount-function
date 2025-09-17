@@ -1,15 +1,29 @@
 query CartInput {
   cart {
+    buyerIdentity {
+      customer {
+        isTradePro20: hasAnyTag(tags: ["trade_pro_discount:20"])
+        isTradePro30: hasAnyTag(tags: ["trade_pro_discount:30"])
+      }
+    }
     lines {
       id
-      cost {
-        subtotalAmount {
-          amount
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          product {
+            id
+            isTradeProSample: inAnyCollection(ids: ["gid://shopify/Collection/296295432330"])
+            isTradeProProduct: inAnyCollection(ids: ["gid://shopify/Collection/296295366794"]) 
+          }
         }
       }
     }
   }
   discount {
-    discountClasses
+    metafield(namespace: "$app:tradepro-discount", key: "function-configuration") {
+      value
+    }
   }
 }
