@@ -10,6 +10,6 @@ uid = "92cba0be-899a-384c-d133-2501e9496cbf387f508e"
 
 # Only 1 target can be specified for each Admin block extension
 [[extensions.targeting]]
-module = "./src/DiscountFunctionSettings.tsx"
-# The target used here must match the target used in the module file (./src/DiscountFunctionSettings.tsx)
+module = "./src/index.tsx"
+# The target used here must match the target used in the module file (./src/index.tsx)
 target = "admin.discount-details.function-settings.render"
