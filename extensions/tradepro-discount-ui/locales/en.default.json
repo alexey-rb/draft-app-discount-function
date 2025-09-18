@@ -1,12 +1,10 @@
 {
-  "name": "[Example] Discount UI extension",
-  "description": "Discount UI extension",
-  "title": "Discount that applies to product, order and shipping",
+  "name": "Tradepro Discount UI extension",
+  "description": "Tradepro Discount UI extension",
+  "title": "Discount that applies to product",
   "loading": "Loading...",
   "percentage": {
-    "Product": "Product discount",
-    "Order": "Order discount",
-    "Shipping": "Shipping discount"
+    "Product": "Product discount"
   },
   "collections": {
     "buttonLabel": "Choose collections",

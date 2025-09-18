@@ -1,5 +1,6 @@
 import { useApi } from "@shopify/ui-extensions-react/admin";
 import { useState, useMemo, useEffect } from "react";
+import { parseMetafield } from "./utils/parseMetafield";
 
 const TARGET = "admin.discount-details.function-settings.render";
 const METAFIELD_NAMESPACE = "$app:tradepro-discount";
@@ -59,8 +60,6 @@ export function useExtensionData() {
       key: METAFIELD_KEY,
       value: JSON.stringify({
         cartLinePercentage: percentages.product,
-        orderPercentage: percentages.order,
-        deliveryPercentage: percentages.shipping,
         collectionIds: collections.map(({ id }) => id),
       }),
       valueType: "json",
@@ -106,25 +105,6 @@ export function useExtensionData() {
     appliesTo,
     onAppliesToChange,
   };
-}
-
-function parseMetafield(value) {
-  try {
-    const parsed = JSON.parse(value || "{}");
-    return {
-      percentages: {
-        product: Number(parsed.cartLinePercentage ?? 0),
-        order: Number(parsed.orderPercentage ?? 0),
-        shipping: Number(parsed.deliveryPercentage ?? 0),
-      },
-      collectionIds: parsed.collectionIds ?? [],
-    };
-  } catch {
-    return {
-      percentages: { product: 0, order: 0, shipping: 0 },
-      collectionIds: [],
-    };
-  }
 }
 
 async function getCollections(collectionGids, adminApiQuery) {

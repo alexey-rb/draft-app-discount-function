@@ -1,4 +1,4 @@
-import { METAFIELD_NAMESPACE, METAFIELD_KEY } from "./constants";
+import { METAFIELD_NAMESPACE, METAFIELD_KEY } from "../constants";
 
 export async function createMetafieldDefinition(adminApiQuery: any) {
   const definition = {
